@@ -33,6 +33,7 @@ class WelcomeViewController: UIViewController {
         LoginButton.layer.cornerRadius = LoginButton.frame.size.height / 2
         guideButton.layer.cornerRadius = guideButton.frame.size.height / 2
     }
+
     
     
     //MARK: Guide Book Pop-up

@@ -14,6 +14,7 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var loginButton: UIButton!
     
     
     override func viewDidLoad() {
@@ -21,6 +22,9 @@ class LoginViewController: UIViewController {
 
         TextFieldBottomLine(myTextField: emailTextField)
         TextFieldBottomLine(myTextField: passwordTextField)
+        
+        //CornerRadius Login Button
+        loginButton.layer.cornerRadius = loginButton.frame.size.height / 4
     }
     
     
@@ -34,6 +38,7 @@ class LoginViewController: UIViewController {
                 } else {
                     print("Success!")
                     //Navigate to News Search Screen
+                    self.performSegue(withIdentifier: "LoginToSearch", sender: self)
                 }
             }
         }

@@ -3,6 +3,7 @@
     <device id="retina6_72" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -147,7 +148,7 @@ is strictly prohibited and may result in legal action.</string>
                                                         <color key="textColor" name="GreyToWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="yourname@example.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XiX-YU-lGK">
+                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="a@b.com" placeholder="yourname@example.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XiX-YU-lGK">
                                                         <rect key="frame" x="0.0" y="40.333333333333314" width="290" height="18.666666666666671"/>
                                                         <color key="textColor" name="RedToWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -164,7 +165,7 @@ is strictly prohibited and may result in legal action.</string>
                                                         <color key="textColor" name="GreyToWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="yourpassword" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q2z-E6-yJ5">
+                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123456" placeholder="yourpassword" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q2z-E6-yJ5">
                                                         <rect key="frame" x="0.0" y="40.333333333333314" width="290" height="18.666666666666671"/>
                                                         <color key="textColor" name="RedToWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -180,7 +181,7 @@ is strictly prohibited and may result in legal action.</string>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Login">
                                             <fontDescription key="titleFontDescription" type="system" pointSize="18"/>
-                                            <color key="baseForegroundColor" name="WhiteToBlack"/>
+                                            <color key="baseForegroundColor" name="WhiteToBlue"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="loginButtonPressed:" destination="Z26-Wq-ZIf" eventType="touchUpInside" id="rVX-Zb-hXg"/>
@@ -191,9 +192,9 @@ is strictly prohibited and may result in legal action.</string>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="k7r-NZ-AmB">
                                 <rect key="frame" x="70" y="796.66666666666663" width="145" height="44.333333333333371"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account yet?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lEI-AC-f0H">
-                                        <rect key="frame" x="0.0" y="0.0" width="145" height="14"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account yet?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lEI-AC-f0H">
+                                        <rect key="frame" x="0.0" y="0.0" width="131.33333333333334" height="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <color key="textColor" name="BlackToWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -226,7 +227,9 @@ is strictly prohibited and may result in legal action.</string>
                     <navigationItem key="navigationItem" id="XtL-Ib-5Lh"/>
                     <connections>
                         <outlet property="emailTextField" destination="XiX-YU-lGK" id="t3A-cb-A9b"/>
+                        <outlet property="loginButton" destination="IEB-Sf-m1I" id="o87-gw-3LT"/>
                         <outlet property="passwordTextField" destination="Q2z-E6-yJ5" id="sPf-yN-KOU"/>
+                        <segue destination="N4g-MO-BbL" kind="show" identifier="LoginToSearch" id="6gn-UH-efe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uta-dM-l5u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -292,10 +295,11 @@ is strictly prohibited and may result in legal action.</string>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Uv-pn-f2T">
                                         <rect key="frame" x="0.0" y="408" width="290" height="35.666666666666686"/>
                                         <color key="backgroundColor" name="RedToWhite"/>
+                                        <color key="tintColor" name="WhiteToBlack"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Sign up">
                                             <fontDescription key="titleFontDescription" type="system" pointSize="18"/>
-                                            <color key="baseForegroundColor" name="WhiteToBlack"/>
+                                            <color key="baseForegroundColor" name="WhiteToBlue"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="signUpButtonPressed:" destination="fo8-Rh-w6l" eventType="touchUpInside" id="zrA-hu-t1K"/>
@@ -307,8 +311,8 @@ is strictly prohibited and may result in legal action.</string>
                                 <rect key="frame" x="70" y="796.66666666666663" width="145" height="44"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w2V-cH-Hyd">
-                                        <rect key="frame" x="0.0" y="0.0" width="145" height="13.666666666666666"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="123.66666666666667" height="13.666666666666666"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <color key="textColor" name="BlackToWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -342,11 +346,130 @@ is strictly prohibited and may result in legal action.</string>
                     <connections>
                         <outlet property="emailTextField" destination="mxE-Kr-qR2" id="xoO-Qd-YXS"/>
                         <outlet property="passwordTextField" destination="k9J-XK-Trl" id="Fg3-jG-oKG"/>
+                        <outlet property="signUpButton" destination="3Uv-pn-f2T" id="3E1-qD-DSW"/>
+                        <segue destination="N4g-MO-BbL" kind="show" identifier="SignUpToSearch" id="70C-Mt-TuR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lPK-yj-Tkp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1845" y="-415"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="lgA-ea-k0B">
+            <objects>
+                <viewController id="N4g-MO-BbL" customClass="SearchViewController" customModule="BRNews" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fYL-ts-2vm">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I9e-5q-52f" userLabel="Top Bar View">
+                                <rect key="frame" x="0.0" y="0.0" width="430" height="170"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6qS-bU-omw">
+                                        <rect key="frame" x="20" y="111" width="340" height="44"/>
+                                        <color key="backgroundColor" red="0.97254901959999995" green="0.92941176469999998" blue="0.89019607840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" name="RedToBlue"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bRK-5I-KPT">
+                                        <rect key="frame" x="365" y="111.33333333333333" width="62" height="42.666666666666671"/>
+                                        <color key="tintColor" name="RedToBlue"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" subtitle="">
+                                            <imageReference key="image" image="magnifyingglass" catalog="system" symbolScale="default"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="24" scale="large" weight="bold"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="searchButtonPressed:" destination="N4g-MO-BbL" eventType="touchUpInside" id="ms8-wZ-wha"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.97254901959999995" green="0.92941176469999998" blue="0.89019607840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="bRK-5I-KPT" secondAttribute="bottom" constant="16" id="8W6-a1-fBW"/>
+                                    <constraint firstItem="bRK-5I-KPT" firstAttribute="leading" secondItem="6qS-bU-omw" secondAttribute="trailing" constant="5" id="Ges-Pa-Dos"/>
+                                    <constraint firstAttribute="height" constant="170" id="Kxv-hn-r7C"/>
+                                    <constraint firstAttribute="trailing" secondItem="bRK-5I-KPT" secondAttribute="trailing" constant="3" id="New-gO-MQl"/>
+                                    <constraint firstItem="6qS-bU-omw" firstAttribute="leading" secondItem="I9e-5q-52f" secondAttribute="leading" constant="20" id="QsI-Po-Yxl"/>
+                                    <constraint firstAttribute="trailing" secondItem="6qS-bU-omw" secondAttribute="trailing" constant="70" id="h7y-Ip-9dE"/>
+                                    <constraint firstItem="6qS-bU-omw" firstAttribute="top" secondItem="I9e-5q-52f" secondAttribute="top" constant="111" id="rBq-Pt-rnG"/>
+                                    <constraint firstAttribute="bottom" secondItem="6qS-bU-omw" secondAttribute="bottom" constant="15" id="uEp-fK-Tgc"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KtJ-0l-e40">
+                                <rect key="frame" x="5" y="832" width="420" height="100"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="dHi-Hb-V8C">
+                                        <rect key="frame" x="20" y="0.0" width="380" height="70"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5a-oA-HLb">
+                                                <rect key="frame" x="0.0" y="0.0" width="170" height="70"/>
+                                                <color key="tintColor" name="RedToBlue"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" image="person.crop.circle.fill" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="24" scale="large" weight="bold"/>
+                                                </buttonConfiguration>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kjH-Bh-trU">
+                                                <rect key="frame" x="210" y="0.0" width="170" height="70"/>
+                                                <color key="tintColor" name="RedToBlue"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" image="clock" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="24" scale="large" weight="bold"/>
+                                                </buttonConfiguration>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.97254901959999995" green="0.92941176469999998" blue="0.89019607840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="9Tx-ke-5fB"/>
+                                    <constraint firstItem="dHi-Hb-V8C" firstAttribute="leading" secondItem="KtJ-0l-e40" secondAttribute="leading" constant="20" id="RZv-8R-oKD"/>
+                                    <constraint firstItem="dHi-Hb-V8C" firstAttribute="top" secondItem="KtJ-0l-e40" secondAttribute="top" id="VNx-eI-HVJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="dHi-Hb-V8C" secondAttribute="trailing" constant="20" id="Zxm-V7-2h1"/>
+                                    <constraint firstAttribute="bottom" secondItem="dHi-Hb-V8C" secondAttribute="bottom" constant="30" id="vch-FS-94G"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pGy-as-zIs">
+                                <rect key="frame" x="0.0" y="180" width="430" height="642"/>
+                                <color key="backgroundColor" red="0.97254901959999995" green="0.92941176469999998" blue="0.89019607840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="7Yx-Uo-8s8"/>
+                        <color key="backgroundColor" red="0.97254901959999995" green="0.92941176469999998" blue="0.89019607840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="pGy-as-zIs" firstAttribute="trailing" secondItem="7Yx-Uo-8s8" secondAttribute="trailing" id="GBZ-7n-1Nc"/>
+                            <constraint firstItem="pGy-as-zIs" firstAttribute="top" secondItem="I9e-5q-52f" secondAttribute="bottom" constant="10" id="P0Q-4Y-Leh"/>
+                            <constraint firstAttribute="bottom" secondItem="KtJ-0l-e40" secondAttribute="bottom" id="Zfe-m3-sfA"/>
+                            <constraint firstItem="I9e-5q-52f" firstAttribute="top" secondItem="fYL-ts-2vm" secondAttribute="top" id="aFc-lW-TK9"/>
+                            <constraint firstItem="KtJ-0l-e40" firstAttribute="top" secondItem="pGy-as-zIs" secondAttribute="bottom" constant="10" id="bpe-6c-77r"/>
+                            <constraint firstItem="KtJ-0l-e40" firstAttribute="leading" secondItem="7Yx-Uo-8s8" secondAttribute="leading" constant="5" id="c2L-wU-hu7"/>
+                            <constraint firstItem="I9e-5q-52f" firstAttribute="trailing" secondItem="7Yx-Uo-8s8" secondAttribute="trailing" id="gmp-4u-IcR"/>
+                            <constraint firstItem="7Yx-Uo-8s8" firstAttribute="trailing" secondItem="KtJ-0l-e40" secondAttribute="trailing" constant="5" id="oE6-sw-egG"/>
+                            <constraint firstItem="pGy-as-zIs" firstAttribute="leading" secondItem="7Yx-Uo-8s8" secondAttribute="leading" id="tWG-0g-YhX"/>
+                            <constraint firstItem="I9e-5q-52f" firstAttribute="leading" secondItem="7Yx-Uo-8s8" secondAttribute="leading" id="wAW-OE-Ehz"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="si4-FE-U6T">
+                        <barButtonItem key="rightBarButtonItem" title="Log Out" id="LjG-rU-xUm">
+                            <color key="tintColor" name="RedToBlue"/>
+                            <connections>
+                                <action selector="logOutPressed:" destination="N4g-MO-BbL" id="oEL-Xh-nCs"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="bottomBarView" destination="KtJ-0l-e40" id="tQ3-Bs-3gk"/>
+                        <outlet property="historyButton" destination="kjH-Bh-trU" id="wd8-RA-xAp"/>
+                        <outlet property="profileButton" destination="E5a-oA-HLb" id="8iG-eY-EeD"/>
+                        <outlet property="searchTextField" destination="6qS-bU-omw" id="sfN-bz-VwS"/>
+                        <outlet property="tableView" destination="pGy-as-zIs" id="DEm-dN-i2q"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S6Y-52-437" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2656.7441860465115" y="3.8626609442060089"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8zj-pP-agJ">
@@ -356,7 +479,7 @@ is strictly prohibited and may result in legal action.</string>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="CsF-fU-TdJ">
                         <rect key="frame" x="0.0" y="59" width="430" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" name="ViewColor"/>
+                        <color key="tintColor" name="RedToWhite"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -368,18 +491,24 @@ is strictly prohibited and may result in legal action.</string>
             <point key="canvasLocation" x="136.74418604651163" y="3.8626609442060089"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="70C-Mt-TuR"/>
+    </inferredMetricsTieBreakers>
     <resources>
+        <image name="clock" catalog="system" width="128" height="123"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="117"/>
+        <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
         <namedColor name="BlackToWhite">
             <color red="0.0" green="0.0" blue="0.0" alpha="0.69999998807907104" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="GreyToWhite">
             <color red="0.36100000143051147" green="0.39599999785423279" blue="0.41999998688697815" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="RedToWhite">
+        <namedColor name="RedToBlue">
             <color red="0.47099998593330383" green="0.12200000137090683" blue="0.17299999296665192" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="ViewColor">
-            <color red="0.47058823529411764" green="0.12156862745098039" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="RedToWhite">
+            <color red="0.47099998593330383" green="0.12200000137090683" blue="0.17299999296665192" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="WhiteToBlack">
             <color red="0.97299998998641968" green="0.92900002002716064" blue="0.88999998569488525" alpha="0.80000001192092896" colorSpace="custom" customColorSpace="sRGB"/>

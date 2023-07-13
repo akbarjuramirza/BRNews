@@ -21,6 +21,7 @@ class SignUpViewController: UIViewController {
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var signUpButton: UIButton!
     
 
     override func viewDidLoad() {
@@ -28,6 +29,9 @@ class SignUpViewController: UIViewController {
         
         TextFieldBottomLine(myTextField: emailTextField)
         TextFieldBottomLine(myTextField: passwordTextField)
+        
+        //CornerRadius Sign up Button
+        signUpButton.layer.cornerRadius = signUpButton.frame.size.height / 4
         
     }
     
@@ -42,6 +46,7 @@ class SignUpViewController: UIViewController {
                 } else {
                     print("Success!")
                     //Navigate to News Search Screen
+                    self.performSegue(withIdentifier: "SignUpToSearch", sender: self)
                 }
             }
         }
