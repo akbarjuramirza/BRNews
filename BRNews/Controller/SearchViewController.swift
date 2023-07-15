@@ -26,7 +26,8 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var newsManager = NewsManager()
-    var cell = NewsCell()
+    var newsCell = NewsCell()
+    var newsModelArray: [NewsModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,49 +84,58 @@ extension UIView {
 
 //MARK: NewsManagerDelegate
 extension SearchViewController: NewsManagerDelegate {
-    func didUpdateNews(_ newsManager: NewsManager, news: [NewsModel]) {
     
+    func didUpdateNews(_ newsManager: NewsManager, news: [NewsModel]) {
+        print("Success in getting newsModelArray Object")
+        newsModelArray = news
+        
         DispatchQueue.main.async {
-            
-            for index in news {
-                //start of for loop
-                self.cell.title.text = index.title
-                //1. Convert Image Url String to URL object
-                if let imageUrl = URL(string: index.image) {
-                    //2. Download the image from the URL
-                    if let data = try? Data(contentsOf: imageUrl) {
-                        //3. Convert the image data into a UIImage
-                        if let image = UIImage(data: data) {
-                            //4. Set the image to your UIImageView
-                            self.cell.newsImageView.image = image
-                        } else {
-                            self.cell.newsImageView.image = UIImage(named: "Profile-Image")
-                        }
-                    }
-                }
-                //end of for loop
-            }
-           //end of DispatchQueue
+            self.tableView.reloadData()
         }
     }
     
     func didFailWithError(error: Error) {
         print(error)
     }
-    
-    
 }
 
 //MARK: News UITableView
 extension SearchViewController: UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        print("Number of cells: \(newsModelArray.count)")
+        return newsModelArray.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! NewsCell
         
-        return cell
+        
+        
+        newsCell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! NewsCell
+        let newsModel = newsModelArray[indexPath.row]
+        newsCell.title.text = newsModel.title
+        
+        if let imageUrl = URL(string: newsModel.image) {
+            URLSession.shared.dataTask(with: imageUrl) { (data, response, error) in
+                if let e = error {
+                    // Handle error
+                    DispatchQueue.main.async {
+                        self.newsCell.newsImageView.image = UIImage(named: "Default-Image")
+                    }
+                    print("Failed to download image: \(String(describing: error))")
+                    return
+                }
+                
+                if let safeImageData = data, let image = UIImage(data: safeImageData) {
+                    // Use the downloaded image
+                    DispatchQueue.main.async {
+                        self.newsCell.newsImageView.image = image
+                    }
+                }
+            }.resume()
+        }
+        
+        print("Cells poplated successfully!")
+        return newsCell
     }
 }

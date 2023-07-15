@@ -16,8 +16,8 @@ struct NewsData: Codable {
 //results[6].image_url
 
 struct Results: Codable {
-    let title: String
-    let description: String
-    let content: String
-    let image_url: String
+    let title: String?
+    let description: String?
+    let content: String?
+    let image_url: String?
 }

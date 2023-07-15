@@ -44,7 +44,7 @@ struct NewsManager {
                 }
                 if let safeData = data {
                     if let parsedData = self.parseJSON(safeData) {
-                        print(parsedData)
+                        print("Success in parsing!")
                         self.delegate?.didUpdateNews(self, news: parsedData)
                     }
                 }
@@ -65,14 +65,15 @@ struct NewsManager {
             var parsedData: [NewsModel] = []
             
             for news in decodedData.results {
-                let title = news.title
-                let description = news.description
-                let content = news.content
-                let image_url = news.image_url
-
+                let title = news.title ?? "Default title"
+                let description = news.description ?? "Default decription"
+                let content = news.content ?? "Default content"
+                let image_url = news.image_url ?? "https://i.pinimg.com/originals/83/bc/8b/83bc8b88cf6bc4b4e04d153a418cde62.jpg"
+                
                 let newsModel = NewsModel(title: title, description: description, content: content, image: image_url)
-
                 parsedData.append(newsModel)
+                print("Data Model size: \(parsedData.count)")
+                print("Success in decoding!")
             }
             
             return parsedData
