@@ -44,7 +44,6 @@ struct NewsManager {
                 }
                 if let safeData = data {
                     if let parsedData = self.parseJSON(safeData) {
-                        print("Success in parsing!")
                         self.delegate?.didUpdateNews(self, news: parsedData)
                     }
                 }
@@ -72,8 +71,6 @@ struct NewsManager {
                 
                 let newsModel = NewsModel(title: title, description: description, content: content, image: image_url)
                 parsedData.append(newsModel)
-                print("Data Model size: \(parsedData.count)")
-                print("Success in decoding!")
             }
             
             return parsedData

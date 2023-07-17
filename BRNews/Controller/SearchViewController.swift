@@ -34,6 +34,7 @@ class SearchViewController: UIViewController {
         
         tableView.dataSource = self
         newsManager.delegate = self
+        tableView.delegate = self
         
         //Put Top Border For Bottom Bar
         let bottomView = bottomBarView
@@ -86,7 +87,6 @@ extension UIView {
 extension SearchViewController: NewsManagerDelegate {
     
     func didUpdateNews(_ newsManager: NewsManager, news: [NewsModel]) {
-        print("Success in getting newsModelArray Object")
         newsModelArray = news
         
         DispatchQueue.main.async {
@@ -99,17 +99,14 @@ extension SearchViewController: NewsManagerDelegate {
     }
 }
 
-//MARK: News UITableView
+//MARK: News UITableViewDataSource
 extension SearchViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("Number of cells: \(newsModelArray.count)")
         return newsModelArray.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        
         
         newsCell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! NewsCell
         let newsModel = newsModelArray[indexPath.row]
@@ -119,10 +116,10 @@ extension SearchViewController: UITableViewDataSource {
             URLSession.shared.dataTask(with: imageUrl) { (data, response, error) in
                 if let e = error {
                     // Handle error
+                    print("Error in retrieving image for SearchViewController: \(e)")
                     DispatchQueue.main.async {
                         self.newsCell.newsImageView.image = UIImage(named: "Default-Image")
                     }
-                    print("Failed to download image: \(String(describing: error))")
                     return
                 }
                 
@@ -132,10 +129,49 @@ extension SearchViewController: UITableViewDataSource {
                         self.newsCell.newsImageView.image = image
                     }
                 }
-            }.resume()
+            }
+            .resume()
         }
-        
-        print("Cells poplated successfully!")
         return newsCell
     }
 }
+
+//MARK: News UITableViewDelegate
+extension SearchViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("The selected row is at index: \(indexPath.row)")
+        let selectedNews = newsModelArray[indexPath.row]
+        
+//        let destinationVC = storyboard?.instantiateViewController(identifier: "NewsBoard") as! NewsViewController
+//        destinationVC.titleText = selectedNews.title
+//        navigationController?.pushViewController(destinationVC, animated: true)
+        
+        performSegue(withIdentifier: "SearchToNews", sender: selectedNews)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "SearchToNews" {
+            let destinationVC = segue.destination as! NewsViewController
+            if let selectedNews = sender as? NewsModel {
+                destinationVC.titleText = selectedNews.title
+                
+                if let imageUrl = URL(string: selectedNews.image) {
+                    URLSession.shared.dataTask(with: imageUrl) { data, response, error in
+                        if let e = error {
+                            //Handle error
+                            print("Error in retrieving image for NewsViewController")
+                        }
+                        
+                        if let safeImageData = data, let image = UIImage(data: safeImageData) {
+                            destinationVC.image = image
+                        }
+                    } .resume()
+                } //end of image change
+                destinationVC.descriptionText = selectedNews.description
+                destinationVC.contentText = selectedNews.content
+            }
+        }
+    }
+}
+
