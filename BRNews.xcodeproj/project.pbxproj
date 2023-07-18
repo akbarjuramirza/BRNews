@@ -18,6 +18,9 @@
 		971129D82A5EBDDA009ACE3C /* NewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971129D72A5EBDDA009ACE3C /* NewsModel.swift */; };
 		971129DA2A5EC05F009ACE3C /* NewsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971129D92A5EC05F009ACE3C /* NewsData.swift */; };
 		974EA3C32A65210700C1545D /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974EA3C22A65210700C1545D /* NewsViewController.swift */; };
+		978A09C82A665F2800AA96DC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978A09C72A665F2800AA96DC /* ProfileViewController.swift */; };
+		978A09CA2A668F7E00AA96DC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978A09C92A668F7E00AA96DC /* Constants.swift */; };
+		978A09CC2A66923100AA96DC /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978A09CB2A66923100AA96DC /* Functions.swift */; };
 		97C7084A2A5D2C7100981189 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C708492A5D2C7100981189 /* AppDelegate.swift */; };
 		97C7084C2A5D2C7100981189 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C7084B2A5D2C7100981189 /* SceneDelegate.swift */; };
 		97C7084E2A5D2C7100981189 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C7084D2A5D2C7100981189 /* WelcomeViewController.swift */; };
@@ -39,6 +42,9 @@
 		971129D72A5EBDDA009ACE3C /* NewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsModel.swift; sourceTree = "<group>"; };
 		971129D92A5EC05F009ACE3C /* NewsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsData.swift; sourceTree = "<group>"; };
 		974EA3C22A65210700C1545D /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
+		978A09C72A665F2800AA96DC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		978A09C92A668F7E00AA96DC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		978A09CB2A66923100AA96DC /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		97C708462A5D2C7100981189 /* BRNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BRNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97C708492A5D2C7100981189 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97C7084B2A5D2C7100981189 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -122,6 +128,8 @@
 				97C708542A5D2C7100981189 /* LaunchScreen.storyboard */,
 				97C708572A5D2C7100981189 /* Info.plist */,
 				971129C82A5D7A83009ACE3C /* GoogleService-Info.plist */,
+				978A09C92A668F7E00AA96DC /* Constants.swift */,
+				978A09CB2A66923100AA96DC /* Functions.swift */,
 			);
 			path = BRNews;
 			sourceTree = "<group>";
@@ -144,6 +152,7 @@
 				971129C62A5D7479009ACE3C /* LoginViewController.swift */,
 				971129CA2A5E6136009ACE3C /* SearchViewController.swift */,
 				974EA3C22A65210700C1545D /* NewsViewController.swift */,
+				978A09C72A665F2800AA96DC /* ProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -238,6 +247,7 @@
 		};
 		F31AF5C6744A536048855199 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -273,8 +283,11 @@
 				971129D82A5EBDDA009ACE3C /* NewsModel.swift in Sources */,
 				97C708612A5D4BE800981189 /* SignUpViewController.swift in Sources */,
 				971129DA2A5EC05F009ACE3C /* NewsData.swift in Sources */,
+				978A09CC2A66923100AA96DC /* Functions.swift in Sources */,
 				971129D02A5EA3C7009ACE3C /* NewsBubble.swift in Sources */,
 				971129C72A5D7479009ACE3C /* LoginViewController.swift in Sources */,
+				978A09C82A665F2800AA96DC /* ProfileViewController.swift in Sources */,
+				978A09CA2A668F7E00AA96DC /* Constants.swift in Sources */,
 				971129D32A5EAF4A009ACE3C /* NewsCell.swift in Sources */,
 				97C7084C2A5D2C7100981189 /* SceneDelegate.swift in Sources */,
 			);
@@ -429,8 +442,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -457,8 +470,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

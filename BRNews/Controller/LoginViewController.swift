@@ -9,8 +9,6 @@ import UIKit
 import FirebaseAuth
 
 class LoginViewController: UIViewController {
-
-    
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -20,8 +18,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        TextFieldBottomLine(myTextField: emailTextField)
-        TextFieldBottomLine(myTextField: passwordTextField)
+        Functions.TextFieldBottomLine(myTextField: emailTextField)
+        Functions.TextFieldBottomLine(myTextField: passwordTextField)
+        
         
         //CornerRadius Login Button
         loginButton.layer.cornerRadius = loginButton.frame.size.height / 4
@@ -29,31 +28,34 @@ class LoginViewController: UIViewController {
     
     
     @IBAction func loginButtonPressed(_ sender: UIButton) {
+        Functions.textFieldShouldReturn(emailTextField, passwordTextField)
         
         if let email = emailTextField.text, let password = passwordTextField.text {
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                 if let e = error {
                     //heads-up to display error
-                    print("Error in login \(e)")
+                    print("Error in login!: \(e)")
+                    let result = Functions.hasTextFieldData(email: self.emailTextField, password: self.passwordTextField)
                 } else {
-                    print("Success!")
+                    print("Success in login!")
                     //Navigate to News Search Screen
-                    self.performSegue(withIdentifier: "LoginToSearch", sender: self)
+                    self.performSegue(withIdentifier: K.FStore.loginToSearch, sender: self)
                 }
             }
         }
     }
-    
-    
-    
-    //MARK: TextField Bottom line
-    func TextFieldBottomLine(myTextField: UITextField) {
-        
-        let bottomLine = CALayer()
-        bottomLine.frame = CGRect(x: 0.0, y: myTextField.frame.height - 1, width: myTextField.frame.width, height: 1.0)
-        bottomLine.backgroundColor = UIColor(named: "GreyToWhite")?.cgColor
-        myTextField.borderStyle = UITextField.BorderStyle.none
-        myTextField.layer.addSublayer(bottomLine)
-    }
 
+}
+
+//MARK: - UITextField
+extension LoginViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        Functions.textFieldShouldReturn(emailTextField, passwordTextField)
+        return true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        return Functions.hasTextFieldData(email: emailTextField, password: passwordTextField)
+    }
 }

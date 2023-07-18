@@ -9,15 +9,6 @@ import UIKit
 
 class WelcomeViewController: UIViewController {
     
-    //MARK: Auto Rotation Cancel
-    override var shouldAutorotate: Bool {
-        return false
-    }
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
-    }
-    
     @IBOutlet weak var RegisterView: UIView!
     @IBOutlet weak var SignUpButton: UIButton!
     @IBOutlet weak var LoginButton: UIButton!

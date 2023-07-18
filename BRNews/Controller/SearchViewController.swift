@@ -10,15 +10,6 @@ import FirebaseAuth
 
 class SearchViewController: UIViewController {
     
-    //MARK: Auto Rotation Cancel
-    override var shouldAutorotate: Bool {
-        return false
-    }
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
-    }
-    
     @IBOutlet weak var bottomBarView: UIView!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var profileButton: UIButton!
@@ -37,8 +28,7 @@ class SearchViewController: UIViewController {
         tableView.delegate = self
         
         //Put Top Border For Bottom Bar
-        let bottomView = bottomBarView
-        bottomView?.addBorderTop(color: UIColor(named: "RedToBlue")!, thickness: 1.5)
+        Functions.addBorderTop(to: bottomBarView, color: UIColor(named: K.BrandColors.redToBlue)!, thickness: 1.5)
         
         //Hiding Navigation Back Button
         self.navigationItem.setHidesBackButton(true, animated: true)
@@ -47,16 +37,9 @@ class SearchViewController: UIViewController {
         searchTextField.layer.cornerRadius = searchTextField.frame.size.height / 4
         
         //Register XIB Newbubble
-        tableView.register(UINib(nibName: "NewsCell", bundle: nil), forCellReuseIdentifier: "ReusableCell")
+        tableView.register(UINib(nibName: K.nibName, bundle: nil), forCellReuseIdentifier: K.bubbleCellIdentifier)
         
     }
-    
-    @IBAction func searchButtonPressed(_ sender: UIButton) {
-        if let safeKey = searchTextField.text {
-            newsManager.getKeyWord(key: safeKey)
-        }
-    }
-    
     
     
     //Log Out
@@ -69,26 +52,58 @@ class SearchViewController: UIViewController {
           print("Error signing out: %@", signOutError)
         }
     }
-
-}
-
-//MARK: Adding Border
-extension UIView {
-    func addBorderTop(color: UIColor, thickness: CGFloat) {
-        let border = CALayer()
-        border.backgroundColor = color.cgColor
-        border.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: thickness)
-        layer.addSublayer(border)
+    
+    
+    @IBAction func profileButtonPressed(_ sender: UIButton) {
     }
-
+    
+    @IBAction func historyButtonPressed(_ sender: UIButton) {
+    }
+    
+    
 }
 
-//MARK: NewsManagerDelegate
+//MARK: - UITextFieldDelegate
+extension SearchViewController: UITextFieldDelegate {
+    
+    //Send API request
+    @IBAction func searchButtonPressed(_ sender: UIButton) {
+        print("Search Button Pressed!")
+        searchTextField.placeholder = "Search"
+        searchTextField.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.placeholder = "Search"
+        textField.endEditing(true)
+        
+        return true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if textField.text == "" {
+            textField.placeholder = "Type something!"
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let safeKey = searchTextField.text {
+            print("Request sent!")
+            newsManager.getKeyWord(key: safeKey)
+        }
+        searchTextField.text = ""
+        searchTextField.endEditing(true)
+    }
+}
+
+//MARK: - NewsManagerDelegate
 extension SearchViewController: NewsManagerDelegate {
     
     func didUpdateNews(_ newsManager: NewsManager, news: [NewsModel]) {
         newsModelArray = news
-        
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -99,7 +114,7 @@ extension SearchViewController: NewsManagerDelegate {
     }
 }
 
-//MARK: News UITableViewDataSource
+//MARK: - UITableViewDataSource
 extension SearchViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -107,71 +122,37 @@ extension SearchViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        newsCell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! NewsCell
+        newsCell = tableView.dequeueReusableCell(withIdentifier: K.bubbleCellIdentifier, for: indexPath) as! NewsCell
         let newsModel = newsModelArray[indexPath.row]
-        newsCell.title.text = newsModel.title
-        
-        if let imageUrl = URL(string: newsModel.image) {
-            URLSession.shared.dataTask(with: imageUrl) { (data, response, error) in
-                if let e = error {
-                    // Handle error
-                    print("Error in retrieving image for SearchViewController: \(e)")
-                    DispatchQueue.main.async {
-                        self.newsCell.newsImageView.image = UIImage(named: "Default-Image")
-                    }
-                    return
-                }
-                
-                if let safeImageData = data, let image = UIImage(data: safeImageData) {
-                    // Use the downloaded image
-                    DispatchQueue.main.async {
-                        self.newsCell.newsImageView.image = image
-                    }
-                }
-            }
-            .resume()
+        DispatchQueue.main.async {
+            self.newsCell.title.text = newsModel.title
+            self.newsCell.newsImageView.image = Functions.urlToImage(urlString: newsModel.image)!
         }
         return newsCell
     }
+    
 }
 
-//MARK: News UITableViewDelegate
+//MARK: - UITableViewDelegate
 extension SearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("The selected row is at index: \(indexPath.row)")
         let selectedNews = newsModelArray[indexPath.row]
-        
-//        let destinationVC = storyboard?.instantiateViewController(identifier: "NewsBoard") as! NewsViewController
-//        destinationVC.titleText = selectedNews.title
-//        navigationController?.pushViewController(destinationVC, animated: true)
-        
-        performSegue(withIdentifier: "SearchToNews", sender: selectedNews)
+        performSegue(withIdentifier: K.searchToNews, sender: selectedNews)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "SearchToNews" {
+        if segue.identifier == K.searchToNews {
             let destinationVC = segue.destination as! NewsViewController
             if let selectedNews = sender as? NewsModel {
                 destinationVC.titleText = selectedNews.title
-                
-                if let imageUrl = URL(string: selectedNews.image) {
-                    URLSession.shared.dataTask(with: imageUrl) { data, response, error in
-                        if let e = error {
-                            //Handle error
-                            print("Error in retrieving image for NewsViewController")
-                        }
-                        
-                        if let safeImageData = data, let image = UIImage(data: safeImageData) {
-                            destinationVC.image = image
-                        }
-                    } .resume()
-                } //end of image change
+                destinationVC.image = Functions.urlToImage(urlString: selectedNews.image)!
                 destinationVC.descriptionText = selectedNews.description
                 destinationVC.contentText = selectedNews.content
             }
         }
     }
+    
+    
 }
 

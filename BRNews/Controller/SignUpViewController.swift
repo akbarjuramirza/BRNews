@@ -10,15 +10,6 @@ import FirebaseAuth
 
 class SignUpViewController: UIViewController {
     
-    //MARK: Auto Rotation Cancel
-    override var shouldAutorotate: Bool {
-        return false
-    }
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
-    }
-    
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
@@ -27,8 +18,11 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        TextFieldBottomLine(myTextField: emailTextField)
-        TextFieldBottomLine(myTextField: passwordTextField)
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+
+        Functions.TextFieldBottomLine(myTextField: emailTextField)
+        Functions.TextFieldBottomLine(myTextField: passwordTextField)
         
         //CornerRadius Sign up Button
         signUpButton.layer.cornerRadius = signUpButton.frame.size.height / 4
@@ -37,28 +31,34 @@ class SignUpViewController: UIViewController {
     
     
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
+        Functions.textFieldShouldReturn(emailTextField, passwordTextField)
         
         if let email = emailTextField.text, let password = passwordTextField.text {
             Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                 if let e = error {
                     //heads-up to display error
-                    print("Error in sign up: \(e)")
+                    print("Error in sign up!: \(e)")
+                    _ = Functions.hasTextFieldData(email: self.emailTextField, password: self.passwordTextField)
                 } else {
-                    print("Success!")
+                    print("Success in sign up!")
                     //Navigate to News Search Screen
-                    self.performSegue(withIdentifier: "SignUpToSearch", sender: self)
+                    self.performSegue(withIdentifier: K.FStore.signUpToSearch, sender: self)
                 }
             }
         }
     }
     
+}
+
+//MARK: - UITextFieldDelegate
+extension SignUpViewController: UITextFieldDelegate {
     
-    //MARK: TextField Bottom line
-    func TextFieldBottomLine(myTextField: UITextField) {
-        let bottomLine = CALayer()
-        bottomLine.frame = CGRect(x: 0.0, y: myTextField.frame.height - 1, width: myTextField.frame.width, height: 1.0)
-        bottomLine.backgroundColor = UIColor(named: "GreyToWhite")?.cgColor
-        myTextField.borderStyle = UITextField.BorderStyle.none
-        myTextField.layer.addSublayer(bottomLine)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        Functions.textFieldShouldReturn(emailTextField, passwordTextField)
+        return true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        return Functions.hasTextFieldData(email: emailTextField, password: passwordTextField)
     }
 }

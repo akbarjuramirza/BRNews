@@ -9,7 +9,6 @@ import UIKit
 
 class NewsViewController: UIViewController {
     
-    
     @IBOutlet weak var bottomBarView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var newsImage: UIImageView!
@@ -30,8 +29,12 @@ class NewsViewController: UIViewController {
         contentLabel.text = contentText
 
         // Ading top border to bottom bar
-        bottomBarView.addBorderTop(color: UIColor(named: "RedToWhite")!, thickness: 1.5)
+        Functions.addBorderTop(to: bottomBarView, color: UIColor(named: K.BrandColors.redToWhite)!, thickness: 1.5)
     }
-
+    
+    
+    @IBAction func saveNewsButtonPressed(_ sender: UIButton) {
+    }
+    
 }
 
