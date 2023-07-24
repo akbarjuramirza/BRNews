@@ -26,10 +26,11 @@ class SearchViewController: UIViewController {
         tableView.dataSource = self
         newsManager.delegate = self
         tableView.delegate = self
+        searchTextField.delegate = self
         
         //Put Top Border For Bottom Bar
         Functions.addBorderTop(to: bottomBarView, color: UIColor(named: K.BrandColors.redToBlue)!, thickness: 1.5)
-        
+         
         //Hiding Navigation Back Button
         self.navigationItem.setHidesBackButton(true, animated: true)
         
@@ -68,21 +69,23 @@ extension SearchViewController: UITextFieldDelegate {
     
     //Send API request
     @IBAction func searchButtonPressed(_ sender: UIButton) {
-        print("Search Button Pressed!")
         searchTextField.placeholder = "Search"
         searchTextField.endEditing(true)
+        
+        if searchTextField.text == "" {
+            searchTextField.placeholder = "Type something!"
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.placeholder = "Search"
         textField.endEditing(true)
-        
         return true
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if textField.text == "" {
-            textField.placeholder = "Type something!"
+            searchTextField.placeholder = "Type something!"
             return false
         } else {
             return true
@@ -91,9 +94,9 @@ extension SearchViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let safeKey = searchTextField.text {
-            print("Request sent!")
             newsManager.getKeyWord(key: safeKey)
         }
+        
         searchTextField.text = ""
         searchTextField.endEditing(true)
     }
@@ -124,9 +127,20 @@ extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         newsCell = tableView.dequeueReusableCell(withIdentifier: K.bubbleCellIdentifier, for: indexPath) as! NewsCell
         let newsModel = newsModelArray[indexPath.row]
-        DispatchQueue.main.async {
-            self.newsCell.title.text = newsModel.title
-            self.newsCell.newsImageView.image = Functions.urlToImage(urlString: newsModel.image)!
+        self.newsCell.title.text = newsModel.title
+        if let imageURL = URL(string: newsModel.image) {
+            URLSession.shared.dataTask(with: imageURL) { data, response, error in
+                if let e = error {
+                    print("Error in retieving image from URL: \(e)")
+                    self.newsCell.newsImageView.image = UIImage(named: "Default-Image")
+                }
+                
+                if let safeImageData = data, let safeImage = UIImage(data: safeImageData) {
+                    DispatchQueue.main.async {
+                        self.newsCell.newsImageView.image = safeImage
+                    }
+                }
+            } .resume()
         }
         return newsCell
     }
@@ -146,7 +160,18 @@ extension SearchViewController: UITableViewDelegate {
             let destinationVC = segue.destination as! NewsViewController
             if let selectedNews = sender as? NewsModel {
                 destinationVC.titleText = selectedNews.title
-                destinationVC.image = Functions.urlToImage(urlString: selectedNews.image)!
+                if let imageURL = URL(string: selectedNews.image) {
+                    URLSession.shared.dataTask(with: imageURL) { data, response, error in
+                        if let e = error {
+                            print("Error in retireving image from URL: \(e)")
+                            destinationVC.image = UIImage(named: "Default-Image")!
+                        }
+                        
+                        if let safeImageData = data, let safeImage = UIImage(data: safeImageData) {
+                            destinationVC.image = safeImage
+                        }
+                    } .resume()
+                }
                 destinationVC.descriptionText = selectedNews.description
                 destinationVC.contentText = selectedNews.content
             }

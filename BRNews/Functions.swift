@@ -28,24 +28,23 @@ struct Functions {
     }
     
     //MARK: - Functions || Image from URL
-    static func urlToImage(urlString: String) -> UIImage? {
-        
-        var imageView: UIImage?
-        
+    static func urlToImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
         if let imageUrl = URL(string: urlString) {
             URLSession.shared.dataTask(with: imageUrl) { data, response, error in
                 if let e = error {
-                    //Handle error
-                    print("Error in retrieving Image from URL: \(e)")
+                    print("Error in retrieving image from URL: \(e)")
+                    completion(UIImage(named: "Default-Image"))
                 }
                 
-                if let safeImageData = data, let image = UIImage(data: safeImageData) {
-                    imageView = image
+                if let safeImageData = data, let safeImage = UIImage(data: safeImageData) {
+                    completion(safeImage)
+                } else {
+                    completion(nil)
                 }
-            } .resume()
+            }.resume()
+        } else {
+            completion(nil)
         }
-        
-        return imageView
     }
     
     //MARK: - Functions || Corner Radius

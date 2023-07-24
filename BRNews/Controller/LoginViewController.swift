@@ -35,7 +35,7 @@ class LoginViewController: UIViewController {
                 if let e = error {
                     //heads-up to display error
                     print("Error in login!: \(e)")
-                    let result = Functions.hasTextFieldData(email: self.emailTextField, password: self.passwordTextField)
+                    _ = Functions.hasTextFieldData(email: self.emailTextField, password: self.passwordTextField)
                 } else {
                     print("Success in login!")
                     //Navigate to News Search Screen
